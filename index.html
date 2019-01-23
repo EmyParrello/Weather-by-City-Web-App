@@ -1,0 +1,103 @@
+<!DOCTYPE HTML>
+<html lang="">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Weather by City</title>
+    <!--    Bootstrap-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <!--    CSS-->
+    <link rel="stylesheet" type="text/css" href="styles/style.css">
+</head>
+
+<body>
+    <div id="app">
+        <header class="container-fluid">
+           <img class="logo" src="styles/img/logo_blue.png">
+            <h1>Weather by City</h1>
+        </header>
+        <main class="container">
+
+            <label>What's the weather in
+                <input name="searchCity" type="text" placeholder="type city name" v-model="cityName"> ?
+                <button name="searchCity" v-on:click="getWeatherData(getWeatherUrl())">Show me!</button>
+            </label>
+
+            <div v-show="cityInfo" class="container">
+                <ul class="nav nav-tabs">
+                    <li class="nav-item active"><a class="nav-link active" data-toggle="tab" href="#cityWeather">Current Weather</a></li>
+                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#cityForecast">5 Days Forecast</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div id="cityWeather" class="tab-pane active">
+                        <div class="cityWeather">
+                            <h2>Weather in {{cityData.name}}</h2>
+                            <div>
+                                <p class="main bold">{{cityData.weather[0].main}}</p>
+                                <p class="italic">{{cityData.weather[0].description}}</p>
+                            </div>
+                            <div>
+                                <img v-bind:src="getIcon(cityData.weather[0].icon)">
+                            </div>
+                            <div class="temp">
+                                <p>{{cityData.main.temp}} ºC</p>
+                            </div>
+                            <div>
+                                <p>Max <span class="max">{{cityData.main.temp_max}}</span> ºC</p>
+                                <p>Min <span class="min">{{cityData.main.temp_min}}</span> ºC</p>
+                            </div>
+                            <div>
+                                <p>Humidity: <span class="bold">{{cityData.main.humidity}}</span> %</p>
+                                <p>Pressure: <span class="bold">{{cityData.main.pressure}}</span> hPa</p>
+                                <p>Wind speed: <span class="bold">{{cityData.wind.speed}}</span> m/s</p>
+                                <p>Clouds: <span class="bold">{{cityData.clouds.all}}</span> %</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="cityForecast" class="tab-pane">
+                        <div class="cityForecast">
+                            <h2>Weather in {{cityData.name}}</h2>
+                        </div>
+                            <div v-for="city in cityForecast" class="cityForecastInfo">
+                                <p class="date bold">{{city.dt_txt}}</p>
+                                <div>
+                                    <p class="main bold">{{city.weather[0].main}}</p>
+                                    <p class="italic">{{city.weather[0].description}}</p>
+                                </div>
+                                <div>
+                                    <img v-bind:src="getIcon(city.weather[0].icon)">
+                                </div>
+                                <div class="temp">
+                                    <p>{{city.main.temp}} ºC</p>
+                                </div>
+                                <div>
+                                    <p>Max <span class="max">{{city.main.temp_max}}</span> ºC</p>
+                                    <p>Min <span class="min">{{city.main.temp_min}}</span> ºC</p>
+                                </div>
+                                <div>
+                                    <p>Humidity: <span class="bold">{{city.main.humidity}}</span> %</p>
+                                    <p>Pressure: <span class="bold">{{city.main.pressure}}</span> hPa</p>
+                                    <p>Wind speed: <span class="bold">{{city.wind.speed}}</span> m/s</p>
+                                    <p>Clouds: <span class="bold">{{city.clouds.all}}</span> %</p>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <div class="container-fluid notFound" v-show="notFound">
+            <p>No city found</p>
+        </div>
+    </div>
+
+    <!--   Bootstrap-->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <!--    Vue-->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!--    JavaScript-->
+    <script src="main.js"></script>
+</body>
+
+</html>
